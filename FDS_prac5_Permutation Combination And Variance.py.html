@@ -1,0 +1,303 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+ns = 6
+na = 1
+pa = na/ns
+print("probability of getting 3 is :",pa)
+
+
+# # probability of getting atleast getting one head when a coin is tossed thrice
+
+# In[2]:
+
+
+ns = 8
+na = 7
+pa = na/ns
+print("probability of getting not blue jellybean is :",pa)
+
+
+# In[3]:
+
+
+P = 0.7*0.5
+print("probability that they will be alive after 20 years is :",P)
+
+
+# In[6]:
+
+
+def event_probability(n,s):
+    return n/s
+
+
+# In[7]:
+
+
+pa = event_probability(2,6)
+pb = event_probability(3,6)
+P = pa*pb
+print("probability of getting a 4 or 5 on the first toss ans o 1,2,or 3 in the second toss is:",P)
+
+
+# In[8]:
+
+
+pw = event_probability(5,10)
+pb = event_probability(3,9)
+pg = event_probability(2,8)
+P = pw*pb*pg
+print("probability of getting a 4 or 5 on the first toss ans o 1,2,or 3 in the second toss is:",P)
+
+
+# In[10]:
+
+
+#Sample cards
+cards = 52
+
+# calculte the probabilty of drawing a heart or a club
+hearts = 13
+clubs = 13
+heart_or_clubs = event_probability(hearts,clubs) + event_probability(clubs,cards)
+print(heart_or_clubs)
+
+
+# In[11]:
+
+
+#Sample cards
+cards = 52
+
+# calculte the probabilty of drawing a ace or a king or a queen
+king = 4
+queen = 4
+ace = 4
+
+ace_King_or_Queen = event_probability(ace,cards) + event_probability(queen,cards) + event_probability(king,cards)
+print(ace_King_or_Queen)
+
+
+# In[15]:
+
+
+#Sample cards
+cards = 52
+
+# calculte the probabilty of drawing a ace or a king or a queen
+heart = 13
+ace = 4
+ace_of_hearts = 1
+
+ace_or_heart = event_probability(heart,cards) + event_probability(ace,cards) - event_probability(ace_of_hearts,cards)
+print(round(ace_or_heart,1))
+
+
+# In[16]:
+
+
+# Calculate thre probability of  drawing red cards or a face cards
+red_cards =26
+face_cards = 12
+red_face_cards = 6
+red_or_face_cards = event_probability(red_cards,cards) + event_probability(face_cards,cards) - event_probability(red_face_cards,cards)
+
+print(round(red_or_face_cards,1))
+
+
+# # Complimentry Event
+
+# In[17]:
+
+
+# probability of not getting 5 when a fair dice is rolled 
+ns = 6 #n(S)={1,2,3,4,5,6}
+na = 1  #n(A)={5}
+pa = na/ns
+print("probability of getting 5 is :",1-pa)
+
+
+# # Conditional probabity
+
+# In[22]:
+
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('/Users/girishmeghanani/FDS_Practicals' + '/student-mat.csv')
+df.head(3)
+
+
+# In[23]:
+
+
+len(df)
+
+
+# In[24]:
+
+
+df['grade_A']=np.where(df['G3']*5 >=80,1,0)
+
+
+# In[26]:
+
+
+df['high_absences'] = np.where(df['absences']>=10,1,0)
+
+
+# In[27]:
+
+
+df.head()
+
+
+# In[28]:
+
+
+df['count']=1
+
+AND drop all columns we dont care about
+# In[35]:
+
+
+df=df[['grade_A','high_absences','count']]
+df.head()
+
+Now we will create pivot_table from this
+# In[33]:
+
+
+final = pd.pivot_table(
+        df,
+        values='count',
+        index=['grade_A'],
+        columns=['high_absences'],
+        aggfunc=np.size,
+        fill_value=0
+)
+
+
+# In[34]:
+
+
+print(final)
+
+Calculate the probability that student get A even missing 10 or more classes
+we have all data we need from above
+p(A):the probability of a grade of 80% or greater
+P(B):the probability of missing 10 or more classes
+P(A|B):the probability of a 80%+ grade, given missing 10 or more classes
+    
+P(A)=(35+5)/(277+78+35+5)=0.1012658
+P(B)=
+# # Permutation Combination And Variance
+
+# In[3]:
+
+
+import itertools
+from itertools import product
+box_1 = ['g','b']
+perm=[]
+for p in itertools.product(box_1,repeat=2):
+    perm.append(p)
+    
+perm
+
+
+# In[5]:
+
+
+import itertools
+from itertools import product
+box_1 = ['g','b','y']
+perm=[]
+for p in itertools.product(box_1,repeat=3):
+    perm.append(p)
+    
+perm
+
+
+# In[7]:
+
+
+import itertools
+from itertools import product
+
+box_1 = ['g','b','y']
+perm=itertools.permutations(box_1)
+
+for i in list(perm):
+    print(i)
+    
+
+
+# In[8]:
+
+
+import itertools
+from itertools import product
+
+box_1 = ['g','b']
+perm=itertools.permutations(box_1)
+
+for i in list(perm):
+    print(i)
+    
+
+
+# In[10]:
+
+
+box_2 = ['g','b','y']
+perm=[]
+for p in itertools.product(box_2,repeat=2):
+    perm.append(p)
+    
+perm
+
+
+# In[11]:
+
+
+box_1 = ['g','b','y']
+perm=itertools.permutations(box_2,2)
+
+for i in list(perm):
+    print(i)
+
+
+# # Combinations
+# c(n,k)=(n+k-1)!/k!(n-1)!
+
+# In[12]:
+
+
+from itertools import combinations_with_replacement
+
+box_1 = ['g','b']
+comb = combinations_with_replacement(box_1,2)
+
+for i in list(comb):
+    print(i)
+
+
+# In[13]:
+
+
+from itertools import combinations_with_replacement
+
+box_1 = ['g','b','y','w']
+comb = combinations_with_replacement(box_1,2)
+
+for i in list(comb):
+    print(i)
+
+
+# 
