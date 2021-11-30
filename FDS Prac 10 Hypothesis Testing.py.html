@@ -1,0 +1,235 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[ ]:
+
+
+'/Users/girishmeghanani/FDS_Practicals' + '/iris.csv'
+
+
+# In[3]:
+
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy.stats as stats
+from scipy.stats import ttest_1samp
+from statsmodels.stats.power import tt_ind_solve_power
+
+
+# In[11]:
+
+
+ages=[45,65,75,96,54,36,67,86,96,25,13,64,75,75,67,98,78,98,43,13,32,46,76,87,45,76,68,58,48,76]
+
+
+# In[13]:
+
+
+ages_mean=np.mean(ages)
+print(ages_mean)
+
+
+# In[14]:
+
+
+#lets take sample
+sample_size=10
+age_sample=np.random.choice(ages,sample_size)
+age_sample
+
+
+# In[15]:
+
+
+from scipy.stats import ttest_1samp
+
+
+# In[16]:
+
+
+ttest,p_value=ttest_1samp(age_sample,30)
+
+
+# In[17]:
+
+
+print(p_value)
+
+
+# In[18]:
+
+
+if p_value < 0.05:
+    print("We are rejecting null hypothesis")
+else:
+    print("We are accepting null hypothesis")
+
+
+# In[19]:
+
+
+df=pd.read_excel('/Users/girishmeghanani/FDS_Practicals' + '/Result.xlsx')
+
+
+# In[20]:
+
+
+df.describe()
+
+
+# In[21]:
+
+
+Ho="mu<=113"
+#alt hyp
+Ha="mu>113"
+#alpha
+al=0.05
+#mu-> mean
+mu=113
+#tail type
+tt=1
+#data
+marks=df['Total'].values
+print("Ho:",Ho)
+print("Ha:",Ha)
+print("al:",al)
+print("mu:",mu)
+print(marks)
+print("",)
+
+
+# In[22]:
+
+
+ts, pv = ttest_1samp(marks,mu)
+print("t-stat",ts)
+print("p-vals",pv)
+t2pv=pv
+t1pv=pv*2
+print("1t pv",t1pv)
+print("2t pv",t2pv)
+
+
+# In[23]:
+
+
+if tt ==1:
+    if t1pv<al:
+        print("Null hypothesis: Rejected")
+        print("Conclusion:",Ha)
+    else:
+        print("Null hypothesis:Not Rejected")
+        print("Conclusion:",Ha)
+else:
+    if t2pv < al/2:
+        print("Null hypothesis: Rejected")
+        print("Conclusion:",Ha)
+    else:
+        print("Null hypothesis:Not Rejected")
+        print("Conclusion:",Ha)
+
+
+# In[24]:
+
+
+#null hyp
+Ho="mu=113"
+#alt hyp
+Ha="mu != 113"
+#alpha
+al=0.05
+#mu->mean
+mu=113
+
+
+# In[25]:
+
+
+# tail type
+tt=2
+#data
+marks=df['Total'].values
+#print
+print("Ho:",Ho)
+print("Ha:",Ha)
+print("al:",al)
+print("mu:",mu)
+print(marks)
+print("",)
+
+
+# In[26]:
+
+
+ts, pv = ttest_1samp(marks,mu)
+print("t-stat",ts)
+print("p-vals",pv)
+t2pv=pv
+t1pv=pv*2
+print("1t pv",t1pv)
+print("2t pv",t2pv)
+
+
+# In[27]:
+
+
+if tt ==1:
+    if t1pv<al:
+        print("Null hypothesis: Rejected")
+        print("Conclusion:",Ha)
+    else:
+        print("Null hypothesis:Not Rejected")
+        print("Conclusion:",Ho)
+else:
+    if t2pv < al/2:
+        print("Null hypothesis: Rejected")
+        print("Conclusion:",Ha)
+    else:
+        print("Null hypothesis:Not Rejected")
+        print("Conclusion:",Ho)
+
+
+# # AB TESTING
+# 
+
+# In[28]:
+
+
+subj1=np.array([43,54,24,45,45,42,46,47,48,49])
+subj2=np.array([41,42,43,54,44,45,46,47,48,49])
+
+
+# In[29]:
+
+
+sns.distplot(subj1)
+
+
+# In[30]:
+
+
+sns.distplot(subj1)
+
+
+# In[31]:
+
+
+t_stat, p_val=stats.ttest_ind(subj1,subj2)
+t_stat, p_val
+
+
+# In[32]:
+
+
+stats.ttest_ind(subj1,subj2,equal_var=True)
+
+
+# In[ ]:
+
+
+
+
